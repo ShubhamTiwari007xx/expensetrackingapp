@@ -22,6 +22,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+
 await connectDB();
 
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server running at http://localhost:${process.env.PORT || 5000}`);
+});
 export default app;
