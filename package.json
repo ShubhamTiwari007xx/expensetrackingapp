@@ -24,7 +24,7 @@
     "build:css": "tailwindcss -i ./src/input.css -o ./public/output.css",
     "watch:css": "tailwindcss -i ./src/input.css -o ./public/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-      "build": "prisma generate && vite build"
+      "build": "prisma generate "
 
   },
   "keywords": [],
