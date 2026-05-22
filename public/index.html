@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Manage Your Expenses</title>
+    <link rel="stylesheet" href="output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .blob {
+            filter: blur(60px);
+            animation: move 20s infinite alternate;
+        }
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+        .tab-active {
+            background: rgba(79, 70, 229, 0.2);
+            color: white;
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+        }
+        .hidden { display: none !important; }
+        .form-transition { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-50 min-h-screen flex items-center justify-center overflow-x-hidden relative font-['Outfit']">
+    
+    <!-- Animated Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="blob absolute -top-24 -left-24 w-96 h-96 bg-indigo-600 rounded-full opacity-30"></div>
+        <div class="blob absolute -bottom-12 -right-12 w-80 h-80 bg-pink-600 rounded-full opacity-30" style="animation-delay: -5s;"></div>
+        <div class="blob absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600 rounded-full opacity-20" style="animation-delay: -10s;"></div>
+    </div>
+
+    <!-- Auth Container -->
+    <div id="auth-container" class="w-full max-w-md p-6 z-10 transition-all duration-500">
+        <div class="glass rounded-3xl p-8 shadow-2xl animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <div class="text-center mb-8">
+                <div class="text-4xl font-black bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-6 tracking-tight">
+                    Nexus
+                </div>
+                
+                <div class="flex bg-slate-900/50 p-1 rounded-xl gap-1 border border-white/5">
+                    <button id="login-tab" class="flex-1 py-2 px-4 rounded-lg font-semibold transition-all duration-300 tab-active">
+                        Login
+                    </button>
+                    <button id="signup-tab" class="flex-1 py-2 px-4 rounded-lg font-semibold text-slate-400 hover:text-slate-200 transition-all duration-300">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden h-[400px]">
+                <!-- Login Form -->
+                <form id="login-form" class="form-transition opacity-100 translate-x-0 pointer-events-auto absolute w-full">
+                    <h1 class="text-2xl font-bold mb-2">Welcome Back</h1>
+                    <p class="text-slate-400 text-sm mb-6">Enter your credentials to access your account</p>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-1.5">Email</label>
+                            <input type="email" id="login-email" placeholder="name@company.com" required 
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-1.5">Password</label>
+                            <input type="password" id="login-password" placeholder="••••••••" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        </div>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-indigo-500/30 mt-2">
+                            Login
+                        </button>
+                        <div id="login-message" class="text-center text-sm min-h-[1.25rem] mt-4"></div>
+                    </div>
+                </form>
+
+                <!-- Sign Up Form -->
+                <form id="signup-form" class="form-transition opacity-0 translate-x-12 pointer-events-none absolute w-full">
+                    <h1 class="text-2xl font-bold mb-2">Create Account</h1>
+                    <p class="text-slate-400 text-sm mb-6">Join Nexus and start managing your expenses</p>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-1.5">Username</label>
+                            <input type="text" id="signup-username" placeholder="johndoe" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-1.5">Email</label>
+                            <input type="email" id="signup-email" placeholder="name@company.com" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-300 mb-1.5">Password</label>
+                            <input type="password" id="signup-password" placeholder="••••••••" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        </div>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl transition-all hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-indigo-500/30 mt-2">
+                            Get Started
+                        </button>
+                        <div id="signup-message" class="text-center text-sm min-h-[1.25rem] mt-4"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Container -->
+    <div id="dashboard-container" class="hidden w-full max-w-4xl p-6 z-10 animate-in fade-in zoom-in duration-700">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Sidebar / Add Expense -->
+            <div class="w-full md:w-80 space-y-6">
+                <div class="glass rounded-3xl p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-2xl font-black bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Nexus</div>
+                        <button id="logout-btn" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors" title="Logout">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </button>
+                    </div>
+
+                    <div class="mb-8">
+                        <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Welcome back</div>
+                        <div id="user-greeting" class="text-xl font-bold text-white truncate">User</div>
+                    </div>
+
+                    <form id="expense-form" class="space-y-4">
+                        <h3 class="text-lg font-bold text-white mb-2">Add Expense</h3>
+                        <div>
+                            <input type="text" id="expense-title" placeholder="Expense Title" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-2.5 outline-none focus:border-indigo-500 transition-all text-sm">
+                        </div>
+                        <div>
+                            <input type="number" id="expense-amount" placeholder="Amount" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-2.5 outline-none focus:border-indigo-500 transition-all text-sm">
+                        </div>
+                        <div>
+                            <select id="expense-category" required
+                                class="w-full bg-slate-900/50 border border-white/10 rounded-xl px-4 py-2.5 outline-none focus:border-indigo-500 transition-all text-sm text-slate-300">
+                                <option value="" disabled selected>Category</option>
+                                <option value="Food">Food</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Bills">Bills</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20">
+                            Add Expense
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Summary Card -->
+                <div class="glass rounded-3xl p-6 shadow-xl">
+                    <div class="text-slate-400 text-sm font-medium mb-1">Total Spending</div>
+                    <div id="total-amount" class="text-3xl font-black text-white">$0.00</div>
+                </div>
+            </div>
+
+            <!-- Main Content / Expense List -->
+            <div class="flex-1 space-y-6">
+                <div class="glass rounded-3xl p-8 shadow-xl min-h-[500px] flex flex-col">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-bold text-white">Recent Expenses</h2>
+                        <div class="text-sm text-slate-400" id="expense-count">0 items</div>
+                    </div>
+
+                    <div id="expense-list" class="space-y-3 overflow-y-auto max-h-[600px] pr-2">
+                        <!-- Expenses will be rendered here -->
+                        <div class="text-center py-20 text-slate-500 italic">No expenses yet. Add one to get started!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
