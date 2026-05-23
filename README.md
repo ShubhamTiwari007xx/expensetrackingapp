@@ -69,7 +69,6 @@ Create a `.env` file in the project root:
 ```env
 DATABASE_URL="your_postgresql_or_supabase_connection_string"
 JWT_SECRET="your_jwt_secret"
-NODE_ENV="development"
 ```
 
 ### 4. Set up Prisma
