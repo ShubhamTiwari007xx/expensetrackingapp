@@ -166,6 +166,7 @@ The app uses two main Prisma models:
 
 - `User`: stores username, email, hashed password, and related expenses
 - `Expense`: stores title, amount, category, timestamp, and owner user ID
+- stores amounts by adding them
 
 ## Notes
 
