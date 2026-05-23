@@ -61,7 +61,7 @@ cd expensetrackingapp
 ```bash
 npm install
 ```
-
+*for auth , cookie etc download the necessary packages*
 ### 3. Configure environment variables
 
 Create a `.env` file in the project root:
