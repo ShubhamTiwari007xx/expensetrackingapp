@@ -61,7 +61,7 @@ cd expensetrackingapp
 ```bash
 npm install
 ```
-
+*for auth , cookie etc download the necessary packages*
 ### 3. Configure environment variables
 
 Create a `.env` file in the project root:
@@ -69,7 +69,6 @@ Create a `.env` file in the project root:
 ```env
 DATABASE_URL="your_postgresql_or_supabase_connection_string"
 JWT_SECRET="your_jwt_secret"
-NODE_ENV="development"
 ```
 
 ### 4. Set up Prisma
@@ -166,6 +165,7 @@ The app uses two main Prisma models:
 
 - `User`: stores username, email, hashed password, and related expenses
 - `Expense`: stores title, amount, category, timestamp, and owner user ID
+- stores amounts by adding them
 
 ## Notes
 
